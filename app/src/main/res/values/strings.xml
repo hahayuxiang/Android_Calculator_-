@@ -1,0 +1,104 @@
+<resources>
+    <string name="app_name">计算器</string>
+    <string name="last_output"></string>
+    <string name="current_out"></string>
+    <string name="output"></string>
+    <string name="leftkuohao">(</string>
+    <string name="rightkuohao">)</string>
+    <string name="c">AC</string>
+    <string name="backspace">Del</string>
+    <string name="change">D/H</string>
+    <string name="pingfang">x^2</string>
+    <string name="kaifang">√x</string>
+    <string name="chu">÷</string>
+    <string name="seven">7</string>
+    <string name="eight">8</string>
+    <string name="nine">9</string>
+    <string name="chen">×</string>
+    <string name="four">4</string>
+    <string name="five">5</string>
+    <string name="six">6</string>
+    <string name="jian">-</string>
+    <string name="one">1</string>
+    <string name="two">2</string>
+    <string name="three">3</string>
+    <string name="jia">+</string>
+    <string name="fuhao">+/-</string>
+    <string name="zero">0</string>
+    <string name="dot">.</string>
+    <string name="dengyu">=</string>
+
+    <string name="A">A</string>
+    <string name="B">B</string>
+    <string name="C">C</string>
+    <string name="D">D</string>
+    <string name="E">E</string>
+    <string name="F">F</string>
+    <string name="info"></string>
+
+    <string name="plural">复数计算器</string>
+    <string name="unit_conversion">单位换算器</string>
+    <string name="loan">车、房贷计算器</string>
+    <string name="currency">汇率换算器</string>
+    
+    <string name="plural_tip_1">请输入第一个复数:</string>
+    <string name="plural_tip_2">请输入第二个复数:</string>
+    <string name="plural_tip_3">当前运算符:</string>
+
+    <string name="plural_input_1">格式：a + bi 或 a 或 bi</string>
+    <string name="plural_input_2">格式：a + bi 或 a 或 bi</string>
+    <string name="plural_print_1">+</string>
+    <string name="plural_jia">+</string>
+    <string name="plural_jian">-</string>
+    <string name="plural_chen">×</string>
+    <string name="plural_chu">÷</string>
+    <string name="plural_dengyu">=</string>
+    <string name="plural_ans">ANS</string>
+
+    <string name="loan_tip_1">还款方式:</string>
+    <string name="loan_tip_2">贷款总额:</string>
+    <string name="loan_tip_3">贷款年限:</string>
+    <string name="loan_tip_4">贷款利率:</string>
+    <string name="loan_tip_5">还款月数:</string>
+    <string name="loan_tip_6">月均还款:</string>
+    <string name="loan_tip_7">利息总额:</string>
+    <string name="loan_tip_8">本息总额:</string>
+
+
+    <string name="loan_input_1">请输入</string>
+    <string name="loan_input_2">请输入</string>
+    <string name="loan_input_3">请输入</string>
+    <string name="loan_output_1"></string>
+    <string name="loan_output_2"></string>
+    <string name="loan_output_3"></string>
+    <string name="loan_output_4"></string>
+
+    <string name="loan_button_1">全部重置</string>
+    <string name="loan_button_2">开始计算</string>
+    <string name="loan_unit_1">万元</string>
+    <string name="loan_unit_2">年</string>
+    <string name="loan_unit_3">%</string>
+    <string name="loan_unit_4">元</string>
+    <string name="loan_unit_5">月</string>
+    <string name="loan_unit_6">元</string>
+    <string name="loan_unit_7">元</string>
+
+    <string name="conversion_tip_1">类别</string>
+    <string name="conversion_tip_2">数据</string>
+    <string name="conversion_tip_3">结果</string>
+    <string name="conversion_input">请输入</string>
+    <string name="conversion_output">ANS</string>
+    <string name="conversion_button">开始转换</string>
+    
+    
+    <string name="currency_button_1">点击获得今日汇率信息</string>
+    <string name="currency_tip_1">当前未获得信息</string>
+    <string name="currency_tip_2">人民币</string>
+    <string name="currency_input">请输入</string>
+    <string name="currency_tip_3">从</string>
+    <string name="currency_tip_4">到</string>
+    <string name="currency_output">ANS</string>
+    <string name="currency_button_2">开始转换</string>
+
+
+</resources>
