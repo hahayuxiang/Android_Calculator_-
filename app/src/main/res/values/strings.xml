@@ -40,7 +40,7 @@
     <string name="unit_conversion">单位换算器</string>
     <string name="loan">车、房贷计算器</string>
     <string name="currency">汇率换算器</string>
-    
+
     <string name="plural_tip_1">请输入第一个复数:</string>
     <string name="plural_tip_2">请输入第二个复数:</string>
     <string name="plural_tip_3">当前运算符:</string>
@@ -89,8 +89,8 @@
     <string name="conversion_input">请输入</string>
     <string name="conversion_output">ANS</string>
     <string name="conversion_button">开始转换</string>
-    
-    
+
+
     <string name="currency_button_1">点击获得今日汇率信息</string>
     <string name="currency_tip_1">当前未获得信息</string>
     <string name="currency_tip_2">人民币</string>
