@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/background"
     tools:context=".ConversionActivity">
 
     <LinearLayout
@@ -135,6 +136,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
+            android:textColorHint="@color/black"
+            android:textSize="17sp"
             android:hint="@string/conversion_button"
             android:background="@drawable/button_3" />
     </LinearLayout>
