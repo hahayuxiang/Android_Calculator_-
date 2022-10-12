@@ -489,14 +489,17 @@ public class MainActivity extends AppCompatActivity {
                             last_out.setTextSize(1,45);
                         }else last_out.setTextSize(1,60);
 
+
                         if (info.getText().toString().equals("D")) {
 //                            current_output.setText(result_dec);
+                            result_dec = textForceLTR(result_dec);
                             last_out.setText(result_dec);
                         } else {
                             String result_hex;
                             result_hex = Integer.toHexString((int) Double.parseDouble(result_dec));
                             result_hex = result_hex.toUpperCase();
 //                            current_output.setText(result_hex);
+                            result_hex = textForceLTR(result_hex);
                             last_out.setText(result_hex);
                         }
                         current_output.setText("");
