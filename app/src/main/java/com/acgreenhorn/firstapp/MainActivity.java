@@ -442,7 +442,6 @@ public class MainActivity extends AppCompatActivity {
                     current_output.setText("");
                     break;
                 case R.id.button_pingfang:
-                    if(info.getText().toString().equals("D")) {
                         String s_pingfang = last_out.getText().toString();
                         s_pingfang = clearstr(s_pingfang);
                         if (!s_pingfang.equals("0")) {
@@ -451,12 +450,12 @@ public class MainActivity extends AppCompatActivity {
                             if (Character.isDigit(tt) || tt.equals(')')) {
                                 s_pingfang += "^(2)";
                             }
+                            if (info.getText().toString().equals("H") && Character.isUpperCase(tt)) {
+                                s_pingfang += "^(2)";
+                            }
                         }
                         s_pingfang = textForceLTR(s_pingfang);
                         last_out.setText(s_pingfang);
-                    }else{
-                        Toast.makeText(getApplicationContext(), "提示：十六进制不支持平方运算", Toast.LENGTH_SHORT).show();
-                    }
                     break;
                 case R.id.button_kaifang:
                     if(info.getText().toString().equals("D")) {
@@ -484,10 +483,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         String result_dec = compute(s_dengyu);
-//                        if (result_dec.length() > 10) {
-//                            BigDecimal big_result = new BigDecimal(result_dec);
-//                            result_dec = big_result.toString();
-//                        }
                         if (result_dec.length() > 11) {
                             last_out.setTextSize(1,45);
                         }else last_out.setTextSize(1,60);
@@ -615,7 +610,10 @@ public class MainActivity extends AppCompatActivity {
                 stack.pop();
                 if (item.equals("^")) {
                     res = oper_1 * oper_1;
-                } else res = Math.sqrt(oper_1);
+                } else {
+                    if (oper_1 >= 0) res = Math.sqrt(oper_1);
+                    else Toast.makeText(getApplicationContext(), "异常，根号下存在负值表达式", Toast.LENGTH_SHORT).show();
+                }
             }else{
                 Toast.makeText(getApplicationContext(), "异常，存在多余操作符", Toast.LENGTH_SHORT).show();
             }
@@ -732,7 +730,7 @@ public class MainActivity extends AppCompatActivity {
         }
         for(int i = 0; i < s_dengyu.length(); i ++) {
             if(s_dengyu.charAt(i) == '^') {
-                if(i + 4 < s_dengyu.length() && Character.isDigit(s_dengyu.charAt(i + 4))) {
+                if(i + 4 < s_dengyu.length() && (Character.isDigit(s_dengyu.charAt(i + 4)) || Character.isUpperCase(s_dengyu.charAt(i + 4)) )) {
                     s_dengyu = s_dengyu.substring(0, i + 1) + "×" + s_dengyu.substring(i + 4);
                 }else if(i + 4 < s_dengyu.length() && s_dengyu.charAt(i + 4) == '.'){
                     s_dengyu = s_dengyu.substring(0, i + 1) + "×0" + s_dengyu.substring(i + 4);
@@ -771,7 +769,7 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
-        System.out.println(s_dengyu);
+//        System.out.println(s_dengyu);
         return s_dengyu;
     }
     //栈内优先级
