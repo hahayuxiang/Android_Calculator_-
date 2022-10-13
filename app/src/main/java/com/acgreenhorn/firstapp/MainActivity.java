@@ -479,7 +479,7 @@ public class MainActivity extends AppCompatActivity {
                     if (s_dengyu.endsWith("√")) {
                         Toast.makeText(getApplicationContext(), "异常，表达式不合法", Toast.LENGTH_SHORT).show();
                     }
-                    else if (s_dengyu.indexOf('.') != -1) {
+                    else if (info.getText().toString().equals("H") && s_dengyu.indexOf('.') != -1) {
                         Toast.makeText(getApplicationContext(), "异常，十六进制不支持小数运算，请重新输入", Toast.LENGTH_SHORT).show();
                     }
                     else {
