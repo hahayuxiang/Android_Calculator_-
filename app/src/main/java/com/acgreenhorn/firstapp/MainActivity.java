@@ -490,13 +490,22 @@ public class MainActivity extends AppCompatActivity {
                         }else last_out.setTextSize(1,60);
 
 
-                        if (info.getText().toString().equals("D")) {
+                        if (info.getText().toString().equals("D")) {//十进制结果
 //                            current_output.setText(result_dec);
                             result_dec = textForceLTR(result_dec);
                             last_out.setText(result_dec);
-                        } else {
-                            String result_hex;
-                            result_hex = Integer.toHexString((int) Double.parseDouble(result_dec));
+                        } else {//十六进制结果
+                            String result_hex = "";
+                            if (result_dec.indexOf('.') != -1) {//结果存在小数
+                                result_hex = solve_hex_dot(result_dec);
+                            }else {//不存在小数，是整数
+                                if (result_dec.charAt(0) == '-') { //当前结果是负数，去掉符号处理
+                                    result_dec = result_dec.substring(1);
+                                    result_hex = Integer.toHexString((int) Double.parseDouble(result_dec));
+                                    result_hex = "-" + result_hex;
+                                } else//正整数直接处理
+                                    result_hex = Integer.toHexString((int) Double.parseDouble(result_dec));
+                            }
                             result_hex = result_hex.toUpperCase();
 //                            current_output.setText(result_hex);
                             result_hex = textForceLTR(result_hex);
@@ -507,6 +516,31 @@ public class MainActivity extends AppCompatActivity {
                     break;
             }
         }
+    }
+
+    private String solve_hex_dot(String result_dec) {
+        boolean flag = false; //标记符号
+        String result_int = result_dec.substring(0, result_dec.indexOf('.')); //整数部分
+        if (result_dec.charAt(0) == '-') {
+            result_int = result_int.substring(1);
+            flag = true;
+        }
+        result_int = Integer.toHexString((int) Double.parseDouble(result_int));
+        result_int = result_int + ".";
+        if (flag) result_int = "-" + result_int;
+        String result_dot = result_dec.substring(result_dec.indexOf('.') + 1);//小数部分
+        while (result_dot.length() > 1 && result_dot.charAt(0) == '0') {
+            result_dot = result_dot.substring(1);
+        }
+        int count = result_dec.length() - result_dec.indexOf('.') - 1;
+        double t = Double.parseDouble(result_dot);
+        t = t / Math.pow(10, count);
+        for (int i = 0; i < count ; i ++ ) {
+            t *= 16;
+            result_int += Integer.toHexString((int)t);
+            t -= (int)t;
+        }
+        return result_int;
     }
 
     private String compute(String s_dengyu) {
@@ -682,11 +716,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private String Pre_processing(String s_dengyu) {
-//        for (int i = 0; i < s_dengyu.length(); i ++) {
-//            if (s_dengyu.charAt(i) == '\u202D' || s_dengyu.charAt(i) == '\u202C') {
-//                s_dengyu = s_dengyu.substring(0, i) + " " + s_dengyu.substring(i + 1);
-//            }
-//        }
         s_dengyu = s_dengyu.replace("\u202D", "");
         s_dengyu = s_dengyu.replace("\u202C", "");
         for (int i = 0; i < s_dengyu.length(); i ++) {
@@ -771,6 +800,7 @@ public class MainActivity extends AppCompatActivity {
     public static String textForceLTR(String text) {
         return "\u202D" + text + "\u202C";
     }
+
     public static String clearstr(String s) {
         s = s.replace("\u202D", "");
         s = s.replace("\u202C", "");
