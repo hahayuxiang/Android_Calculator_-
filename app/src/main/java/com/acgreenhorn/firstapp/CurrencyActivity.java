@@ -124,7 +124,6 @@ public class CurrencyActivity extends AppCompatActivity {
                 case R.id.currency_button_2:
                     if(is_double(input.getText().toString())) {
                         if (tip_1.getText().toString().equals("当前已获得信息")) {
-                            presettlt_list();
                             BigDecimal num_1 = new BigDecimal(all_money.get(idx_1));
                             BigDecimal num_2 = new BigDecimal(all_money.get(idx_2));
                             BigDecimal value = new BigDecimal(input.getText().toString());
@@ -229,7 +228,7 @@ public class CurrencyActivity extends AppCompatActivity {
                 JSONObject now_country = (JSONObject) money_array.get(i);
                 all_money.add(now_country.getString("price"));
             }
-
+            presettlt_list();
         } catch (JSONException e) {
             e.printStackTrace();
         }
