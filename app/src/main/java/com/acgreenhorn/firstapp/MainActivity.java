@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        s_yunsuanfu.add("+");
+        s_yunsuanfu.add("+");//这里加了一行注释
         s_yunsuanfu.add("-");
         s_yunsuanfu.add("÷");
         s_yunsuanfu.add("×");
