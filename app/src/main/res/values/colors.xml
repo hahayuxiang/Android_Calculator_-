@@ -7,7 +7,6 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#BFFFFFFF</color>
-    <color name="focused_color">#B3B8B8B8</color>
     <color name="default_color">#B3F2F2F2</color>
     <color name="pressed_color">#B3B8B8B8</color>
     <color name="background">#BFC3C4C6</color>
