@@ -282,7 +282,18 @@ public class MainActivity extends AppCompatActivity {
                     if(info.getText().toString().equals("D")){
                         String s_dot = last_out.getText().toString();
                         s_dot = clearstr(s_dot);
-                        if (s_dot.indexOf('.') == -1) {
+
+//                        if (s_dot.indexOf('.') == -1) {
+//                            String t_dot = s_dot.substring(s_dot.length() - 1);
+//                            Character tt = t_dot.charAt(0);
+//                            if (Character.isDigit(tt)) {
+//                                s_dot += ".";
+//                            }
+//                            s_dot = textForceLTR(s_dot);
+//                            last_out.setText(s_dot);
+//                            break;
+//                        }
+                        if (s_dot.lastIndexOf('.') == -1) {
                             String t_dot = s_dot.substring(s_dot.length() - 1);
                             Character tt = t_dot.charAt(0);
                             if (Character.isDigit(tt)) {
@@ -291,6 +302,23 @@ public class MainActivity extends AppCompatActivity {
                             s_dot = textForceLTR(s_dot);
                             last_out.setText(s_dot);
                             break;
+                        } else {
+                            int index_dot = s_dot.lastIndexOf('.');
+                            int bool = 0;
+                            int k = index_dot+1;
+                            while(k<s_dot.length()-1) {
+                                String t_dot = s_dot.substring(k,k+1);
+                                if(s_yunsuanfu.contains(t_dot)) {
+                                    bool = 1;
+                                    break;
+                                }
+                                k++;
+                            }if(bool==1){
+                                s_dot += ".";
+                                s_dot = textForceLTR(s_dot);
+                                last_out.setText(s_dot);
+                                break;
+                            }
                         }
                     }else{
                         Toast.makeText(getApplicationContext(), "提示：十六进制只支持整数运算", Toast.LENGTH_SHORT).show();
