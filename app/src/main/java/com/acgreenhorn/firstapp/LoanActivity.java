@@ -15,18 +15,34 @@ import java.util.List;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+/**
+ * 车房贷计算器
+ *
+ * 支持两种方式计算利息，等额本金、等额本息
+ *
+ * 可计算还款月数、月均还款，本息总额、利息总额
+ */
 public class LoanActivity extends AppCompatActivity {
+    /** 下拉框，利息计算方式*/
     Spinner spinner;
+    /** 利息计算方式*/
     String loan_current_option = "";
+    /** 下拉框选项*/
     List<String> loan_options = new ArrayList<>();
     ArrayAdapter<String> adapter;
+    /** loan_clear为重置，loan_compute为计算*/
     Button loan_clear, loan_compute;
-    TextView input1, input2, input3, output1, output2, output3, output4;
+    /** input1为输入贷款总额，input2为输入贷款年限，input3为输入贷款利率*/
+    TextView input1, input2, input3;
+    /** output1为贷款月数，output2还款月数，output3为利息总额，output4为本息总额*/
+    TextView output1, output2, output3, output4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置布局文件
         setContentView(R.layout.activity_loan);
+        //获取控件
         loan_clear = findViewById(R.id.loan_button_1);
         loan_compute = findViewById(R.id.loan_button_2);
         input1 = findViewById(R.id.loan_input_1);
@@ -42,7 +58,7 @@ public class LoanActivity extends AppCompatActivity {
         output3 = findViewById(R.id.loan_output_3);
         output4 = findViewById(R.id.loan_output_4);
 
-
+        //事件监听
         loan_clear.setOnClickListener(new ClickOnLisenter());
         loan_compute.setOnClickListener(new ClickOnLisenter());
 
@@ -53,9 +69,10 @@ public class LoanActivity extends AppCompatActivity {
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                loan_current_option = loan_options.get(i);
+                loan_current_option = loan_options.get(i);//返回利息计算方式
             }
 
             @Override
@@ -65,21 +82,26 @@ public class LoanActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * 事件响应
+     * 数据重置与数据计算
+     */
     class ClickOnLisenter implements View.OnClickListener{
             @SuppressLint("NonConstantResourceId")
             @Override
             public void onClick(View view) {
                 switch(view.getId()){
-                    case R.id.loan_button_1:
+                    case R.id.loan_button_1://按下重置，将所有输出文本清空
                         input1.setText("");
                         input2.setText("");
                         input3.setText("");
                         break;
-                    case R.id.loan_button_2:
+                    case R.id.loan_button_2://按下计算，计算后将结果输出
                         String loan_all, loan_term, loan_rate;
                         loan_all = input1.getText().toString();
                         loan_term = input2.getText().toString();
                         loan_rate = input3.getText().toString();
+                        //检测数据合法性
                         if(!loan_all.equals("") && !loan_term.equals("") && !loan_rate.equals("")) {
                             if(is_double(loan_all) && is_double(loan_term) && is_double(loan_rate)){
                                 loan_display_result(loan_all, loan_term, loan_rate, loan_current_option);
@@ -92,9 +114,16 @@ public class LoanActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 计算车房贷结果，并且显示
+     * @param loan_all 贷款总额
+     * @param loan_term 贷款年限
+     * @param loan_rate 贷款利率
+     * @param loan_current_option 利息计算方式
+     */
     @SuppressLint("DefaultLocale")
     private void loan_display_result(String loan_all, String loan_term, String loan_rate, String loan_current_option) {
-        double num_all = Double.parseDouble(loan_all) * 10000;
+        double num_all = Double.parseDouble(loan_all) * 10000;//还款总额
         double num_term = Double.parseDouble(loan_term) * 12; //还款月数
         double num_rate = Double.parseDouble(loan_rate) / 1200; // 月利率
         if(loan_current_option.equals("等额本息")){
@@ -119,6 +148,11 @@ public class LoanActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 检测数据是否合法
+     * @param input 输入数据
+     * @return true-合法 false-非法
+     */
     private boolean is_double(String input) {
         try{
             Double.parseDouble(input);

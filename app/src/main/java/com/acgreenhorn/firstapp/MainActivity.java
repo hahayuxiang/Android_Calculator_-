@@ -21,33 +21,47 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.Stack;
 
+/**
+ * 实现基本计算器功能
+ *
+ * 十进制加减乘除、带（）表达式、开方平方
+ *
+ * 十六进制加减乘除
+ *
+ */
 public class MainActivity extends AppCompatActivity {
+
     Button button_0, button_1, button_2, button_3, button_4, button_5, button_6, button_7,  button_8,
             button_9, button_fuhao, button_dot, button_leftkuohao, button_rightkuohao, button_c,
             button_backspace, button_change, button_pingfang, button_kaifang, button_chu, button_chen,
             button_jian, button_jia, button_dengyu, button_A, button_B, button_C, button_D, button_E,
             button_F;
+    /** last_output显示表达式与结果，info显示进制*/
     TextView last_out, current_output, info;
 
+    /** 存放 + - * / 运算符      */
     Set<String> s_yunsuanfu = new HashSet<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置布局文件
         setContentView(R.layout.activity_main);
-        s_yunsuanfu.add("+");//这里加了一行注释
+        s_yunsuanfu.add("+");
         s_yunsuanfu.add("-");
         s_yunsuanfu.add("÷");
         s_yunsuanfu.add("×");
 
+        //获取控件
         info = findViewById(R.id.info);
         last_out = findViewById(R.id.last_output);
         current_output = findViewById(R.id.current_out);
 
+        //设置默认显示
         last_out.setText("0");
         current_output.setText("");
         info.setText("D");
 
-
+        //获取控件
         button_0 = findViewById(R.id.button_0);
         button_1 = findViewById(R.id.button_1);
         button_2 = findViewById(R.id.button_2);
@@ -79,6 +93,7 @@ public class MainActivity extends AppCompatActivity {
         button_E = findViewById(R.id.button_E);
         button_F = findViewById(R.id.button_F);
 
+        //给按钮添加事件监听
         button_0.setOnClickListener(new ClickOnLisenter());
         button_1.setOnClickListener(new ClickOnLisenter());
         button_2.setOnClickListener(new ClickOnLisenter());
@@ -112,16 +127,24 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    /** 初始化选择不同计算器的菜单*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.options, menu);
         return true;
     }
+
+
+    /**
+     * 对菜单不同选项进行不同处理
+     * 弹出Toast显示选择的计算器
+     * 请求启动相应组件
+     */
     @SuppressLint("NonConstantResourceId")
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        //通过item.getItemId()对不同选项进行不同的处理
+        //通过item.getItemId()对菜单不同选项进行不同的处理
         switch (item.getItemId())
         {
             case R.id.plural:
@@ -149,6 +172,10 @@ public class MainActivity extends AppCompatActivity {
         }
         return true;
     }
+
+    /**
+     * 计算器按键的事件监听
+     */
     class ClickOnLisenter implements View.OnClickListener{
         @SuppressLint("NonConstantResourceId")
         @Override
@@ -157,7 +184,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_0:
                     String s0 = last_out.getText().toString();
                     s0 = clearstr(s0);
-                    if(!s0.equals("0")) {
+                    if(!s0.equals("0")) {//如果显示为‘0’,不改变。不为‘0’,在后添加‘0’
                         s0 += "0";
                     }
                     s0 = textForceLTR(s0);
@@ -166,8 +193,8 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_1:
                     String s1 = last_out.getText().toString();
                     s1 = clearstr(s1);
-                    if(s1.equals("0")) s1 = "1";
-                    else s1 += "1";
+                    if(s1.equals("0")) s1 = "1";//如果显示‘0’，表示没有其他的输入，进行替换
+                    else s1 += "1";//不为0,后面添加
                     s1= textForceLTR(s1);
                     last_out.setText(s1);
                     break;
@@ -240,16 +267,18 @@ public class MainActivity extends AppCompatActivity {
                     s_fuhao = clearstr(s_fuhao);
                     if(!s_fuhao.equals("0")) {
                         String t_fuhao = s_fuhao.substring(s_fuhao.length() - 1);
+                        //最后一个输入不是"√"时，在后添加‘-’
                         if (s_yunsuanfu.contains(t_fuhao)) {
                             s_fuhao = s_fuhao.substring(0, s_fuhao.length() - 1) + "-";
                         }else {
                             if(!t_fuhao.equals("√")) s_fuhao += "-";
                         }
-                    }else s_fuhao = "-";
+                    }else s_fuhao = "-";//没有其他输入，直接显示‘-’
                     s_fuhao = textForceLTR(s_fuhao);
                     last_out.setText(s_fuhao);
                     break;
                 case R.id.button_dot:
+                    //十进制进行计算
                     if(info.getText().toString().equals("D")){
                         String s_dot = last_out.getText().toString();
                         s_dot = clearstr(s_dot);
@@ -802,6 +831,11 @@ public class MainActivity extends AppCompatActivity {
         return "\u202D" + text + "\u202C";
     }
 
+    /**
+     * 删除字符串不可见字符
+     * @param s 待处理字符串
+     * @return 处理后字符串
+     */
     public static String clearstr(String s) {
         s = s.replace("\u202D", "");
         s = s.replace("\u202C", "");

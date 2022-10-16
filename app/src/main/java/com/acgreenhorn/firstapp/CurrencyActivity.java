@@ -32,8 +32,9 @@ import okhttp3.Request;
 import okhttp3.Response;
 
 /**
- *汇率转换
- *支持十种货币相互转换
+ * 汇率换算器
+ *
+ * 支持十种货币相互转换
  */
 public class CurrencyActivity extends AppCompatActivity {
 
@@ -57,7 +58,9 @@ public class CurrencyActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_currency);//设置布局文件
+        //设置布局文件
+        setContentView(R.layout.activity_currency);
+        //获取控件
         spinner_1 = findViewById(R.id.currency_spinner_1);
         spinner_2 = findViewById(R.id.currency_spinner_2);
         button_1 = findViewById(R.id.currency_button_1);
@@ -66,14 +69,16 @@ public class CurrencyActivity extends AppCompatActivity {
         tip_2 = findViewById(R.id.currency_tip_2);
         input = findViewById(R.id.currency_input);
         output = findViewById(R.id.currency_output);
-
-        button_1.setOnClickListener(new ClickOnLisenter());//添加事件监听
+        //添加事件监听
+        button_1.setOnClickListener(new ClickOnLisenter());
         button_2.setOnClickListener(new ClickOnLisenter());
 
         setspinner();
 
-        all_money.add("1");//人民币->人民币 汇率为 1
-        tip_1.setText("当前未获得信息");//设置初始状态显示
+        //人民币->人民币 汇率为 1
+        all_money.add("1");
+        //设置初始状态显示
+        tip_1.setText("当前未获得信息");
 
     }
 
@@ -245,8 +250,10 @@ public class CurrencyActivity extends AppCompatActivity {
         Request request = new Request.Builder()
                 .url("https://www.mxnzp.com/api/exchange_rate/list?app_id=rfjowlnqqhqsnqrm&app_secret=endFeFJNamZNdXg1VlkxRkFKRVJhdz09")
                 .build();
-        Call call = client.newCall(request);//请求加入调度
-        call.enqueue(new Callback() {//重写回调方法，提交异步请求
+        //请求加入调度
+        Call call = client.newCall(request);
+        //重写回调方法，提交异步请求
+        call.enqueue(new Callback() {
             @Override
             public void onFailure(@NonNull Call call, @NonNull IOException e) {
 
@@ -274,7 +281,7 @@ public class CurrencyActivity extends AppCompatActivity {
                 //数据进行处理后放到all_money中
                 all_money.add(now_country.getString("price"));
             }
-            presettlt_list();
+            presettlt_list();//数据处理
         } catch (JSONException e) {
             e.printStackTrace();
         }
