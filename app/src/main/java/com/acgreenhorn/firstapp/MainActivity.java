@@ -305,19 +305,23 @@ public class MainActivity extends AppCompatActivity {
                         } else {
                             int index_dot = s_dot.lastIndexOf('.');
                             int bool = 0;
-                            int k = index_dot+1;
-                            while(k<s_dot.length()-1) {
-                                String t_dot = s_dot.substring(k,k+1);
-                                if(s_yunsuanfu.contains(t_dot)) {
-                                    bool = 1;
+                            int k = index_dot + 1;
+                            String tt_dot = s_dot.substring(s_dot.length() - 1);
+                            Character tt = tt_dot.charAt(0);
+                            if (Character.isDigit(tt)) {
+                                while (k < s_dot.length() - 1) {
+                                    String t_dot = s_dot.substring(k, k + 1);
+                                    if (s_yunsuanfu.contains(t_dot)) {
+                                        bool = 1;
+                                        break;
+                                    }
+                                    k++;
+                                }if (bool == 1) {
+                                    s_dot += ".";
+                                    s_dot = textForceLTR(s_dot);
+                                    last_out.setText(s_dot);
                                     break;
                                 }
-                                k++;
-                            }if(bool==1){
-                                s_dot += ".";
-                                s_dot = textForceLTR(s_dot);
-                                last_out.setText(s_dot);
-                                break;
                             }
                         }
                     }else{
