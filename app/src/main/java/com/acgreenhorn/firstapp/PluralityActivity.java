@@ -3,7 +3,11 @@ package com.acgreenhorn.firstapp;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -48,6 +52,52 @@ public class PluralityActivity extends AppCompatActivity {
         button_plural_dengyu.setOnClickListener(new ClickOnLisenter());
 
     }
+    /** 初始化选择不同计算器的菜单*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_plurality, menu);
+        return true;
+    }
+
+
+    /**
+     * 对菜单不同选项进行不同处理
+     * 弹出Toast显示选择的计算器
+     * 请求启动相应组件
+     */
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //通过item.getItemId()对菜单不同选项进行不同的处理
+        switch (item.getItemId())
+        {
+            case R.id.main:
+                Toast.makeText(getApplicationContext(), "标准计算器", Toast.LENGTH_SHORT).show();
+                Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent_main);
+                break;
+            case R.id.unit_conversion:
+                Toast.makeText(getApplicationContext(), "单位换算计算器", Toast.LENGTH_SHORT).show();
+                Intent intent_unit_conversion = new Intent(getApplicationContext(), ConversionActivity.class);
+                startActivity(intent_unit_conversion);
+                break;
+            case R.id.loan:
+                Toast.makeText(getApplicationContext(), "车、房贷计算器", Toast.LENGTH_SHORT).show();
+                Intent intent_loan = new Intent(getApplicationContext(), LoanActivity.class);
+                startActivity(intent_loan);
+                break;
+            case R.id.currency:
+                Toast.makeText(getApplicationContext(), "汇率换算器", Toast.LENGTH_SHORT).show();
+                Intent intent_currency = new Intent(getApplicationContext(), CurrencyActivity.class);
+                startActivity(intent_currency);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
     class ClickOnLisenter implements View.OnClickListener {
         @SuppressLint("NonConstantResourceId")
         @Override

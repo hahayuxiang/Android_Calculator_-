@@ -2,9 +2,13 @@ package com.acgreenhorn.firstapp;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.Intent;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -81,6 +85,53 @@ public class CurrencyActivity extends AppCompatActivity {
         tip_1.setText("当前未获得信息");
 
     }
+
+    /** 初始化选择不同计算器的菜单*/
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_currency, menu);
+        return true;
+    }
+
+
+    /**
+     * 对菜单不同选项进行不同处理
+     * 弹出Toast显示选择的计算器
+     * 请求启动相应组件
+     */
+    @SuppressLint("NonConstantResourceId")
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        //通过item.getItemId()对菜单不同选项进行不同的处理
+        switch (item.getItemId())
+        {
+            case R.id.plural:
+                Toast.makeText(getApplicationContext(), "复数计算器", Toast.LENGTH_SHORT).show();
+                Intent intent_plural = new Intent(getApplicationContext(), PluralityActivity.class);
+                startActivity(intent_plural);
+                break;
+            case R.id.unit_conversion:
+                Toast.makeText(getApplicationContext(), "单位换算计算器", Toast.LENGTH_SHORT).show();
+                Intent intent_unit_conversion = new Intent(getApplicationContext(), ConversionActivity.class);
+                startActivity(intent_unit_conversion);
+                break;
+            case R.id.loan:
+                Toast.makeText(getApplicationContext(), "车、房贷计算器", Toast.LENGTH_SHORT).show();
+                Intent intent_loan = new Intent(getApplicationContext(), LoanActivity.class);
+                startActivity(intent_loan);
+                break;
+            case R.id.main:
+                Toast.makeText(getApplicationContext(), "标准换算器", Toast.LENGTH_SHORT).show();
+                Intent intent_main = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent_main);
+                break;
+            default:
+                break;
+        }
+        return true;
+    }
+
 
     /**
      * 设置两个下拉框的选项，为各国货币

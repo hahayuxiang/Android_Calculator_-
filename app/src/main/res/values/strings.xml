@@ -40,6 +40,7 @@
     <string name="unit_conversion">单位换算器</string>
     <string name="loan">车、房贷计算器</string>
     <string name="currency">汇率换算器</string>
+    <string name="main">标准计算器</string>
 
     <string name="plural_tip_1">请输入第一个复数:</string>
     <string name="plural_tip_2">请输入第二个复数:</string>
