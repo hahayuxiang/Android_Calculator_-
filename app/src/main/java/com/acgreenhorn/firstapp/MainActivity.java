@@ -293,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
 //                            last_out.setText(s_dot);
 //                            break;
 //                        }
-                        if (s_dot.lastIndexOf('.') == -1) {
+                        if (s_dot.lastIndexOf('.') == -1) {//如果不存在小数点，则直接添加
                             String t_dot = s_dot.substring(s_dot.length() - 1);
                             Character tt = t_dot.charAt(0);
                             if (Character.isDigit(tt)) {
@@ -302,7 +302,7 @@ public class MainActivity extends AppCompatActivity {
                             s_dot = textForceLTR(s_dot);
                             last_out.setText(s_dot);
                             break;
-                        } else {
+                        } else {//已存在小数点，判断新添加是否重复或是否在数字后
                             int index_dot = s_dot.lastIndexOf('.');
                             int bool = 0;
                             int k = index_dot + 1;
@@ -328,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(getApplicationContext(), "提示：十六进制只支持整数运算", Toast.LENGTH_SHORT).show();
                     }
                     break;
+                    //A、B、C、D、E、F的按键都只能在十六进制使用
                 case R.id.button_A:
                     if(info.getText().toString().equals("H")) {
                         String s_A = last_out.getText().toString();
@@ -394,6 +395,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
                     }
                     break;
+                    //+ - × ÷ 如果最后一个字符为四个运算符中一个则替换，为数字则在后添加
                 case R.id.button_jia:
                     String s_jia = last_out.getText().toString();
                     s_jia = clearstr(s_jia);
@@ -416,7 +418,7 @@ public class MainActivity extends AppCompatActivity {
                         }else {
                             if(!t_jian.equals("√")) s_jian += "-";
                         }
-                    }else s_jian = "-";
+                    }else s_jian = "-";//如果是‘0’,可替换，直接当负号处理
                     s_jian = textForceLTR(s_jian);
                     last_out.setText(s_jian);
                     break;
@@ -444,11 +446,13 @@ public class MainActivity extends AppCompatActivity {
                     s_chu = textForceLTR(s_chu);
                     last_out.setText(s_chu);
                     break;
+                    //清空显示
                 case R.id.button_c:
                     last_out.setText("0");
                     last_out.setTextSize(1, 60);
                     current_output.setText("");
                     break;
+                    //回退一个字符，如果只剩一个字符仍需回退，则置为初始状态‘0’
                 case R.id.button_backspace:
                     String s_backspace = last_out.getText().toString();
                     s_backspace = clearstr(s_backspace);
@@ -468,6 +472,7 @@ public class MainActivity extends AppCompatActivity {
                     String t_leftkuohao = s_leftkuohao.substring(s_leftkuohao.length() - 1);
                     if(s_leftkuohao.equals("0")) s_leftkuohao = "(";
                     else {
+                        //√ （ ） 与+ - × ÷运算符后面可以直接添加（
                         if(t_leftkuohao.equals("√") || t_leftkuohao.equals(")") || t_leftkuohao.equals("(")){
                             s_leftkuohao += "(";
                         }else if(s_yunsuanfu.contains(t_leftkuohao)){
@@ -481,6 +486,7 @@ public class MainActivity extends AppCompatActivity {
                     String s_rightkuohao = last_out.getText().toString();
                     s_rightkuohao = clearstr(s_rightkuohao);
                     String t_rightkuohao = s_rightkuohao.substring(s_rightkuohao.length() - 1);
+                    //'('的个数只能<=')',超出不能添加
                     if (!s_rightkuohao.equals("0") && !s_yunsuanfu.contains(t_rightkuohao)) {
                         int cnt_l = 0, cnt_r = 0;
                         for (int i = 0; i < s_rightkuohao.length(); i ++){

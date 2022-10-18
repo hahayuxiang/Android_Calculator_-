@@ -9,6 +9,11 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+/**
+ * 复数计算器
+ *
+ * 实现基本复数加减乘除
+ */
 public class PluralityActivity extends AppCompatActivity {
 
     Button button_plural_jia, button_plural_jian, button_plural_chen, button_plural_chu, button_plural_dengyu;
