@@ -546,6 +546,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                     else {
                         String result_dec = compute(s_dengyu);
+                        //结果长度过长，字体减小显示
                         if (result_dec.length() > 11) {
                             last_out.setTextSize(1,45);
                         }else last_out.setTextSize(1,60);
@@ -604,20 +605,34 @@ public class MainActivity extends AppCompatActivity {
         return result_int;
     }
 
+    /**
+     * 计算结果
+     * @param s_dengyu 表达式
+     * @return 运算结果
+     */
     private String compute(String s_dengyu) {
+        //表达式预处理
         String s_begin = Pre_processing(s_dengyu);
         String s_middle = To_postfix(s_begin);
         return Caculating(s_middle);
     }
 
+    /**
+     *
+     * @param s_middle
+     * @return
+     */
     @SuppressLint("DefaultLocale")
     private String Caculating(String s_middle) {
         String string_ans;
         double data = 0;
         Stack<Double> stack = new Stack<>();
-        String item = "";
+        String item = "";//存放运算符
+        // flag = -1 当前表达式异常
+        // flag = 0 当前为运算数
+        // flag = 1 当前为运算符
         int flag = -1;
-        int curPos = 0;
+        int curPos = 0;//目前遍历表达式下标
         while(s_middle.charAt(curPos) == ' ') curPos ++;
         while (curPos < s_middle.length()) {
             int k = curPos;
@@ -639,7 +654,9 @@ public class MainActivity extends AppCompatActivity {
             if (flag == -1) {
                 Toast.makeText(getApplicationContext(), "异常，表达式不合法", Toast.LENGTH_SHORT).show();
             } else if (flag == 1) {
+                //读取到运算符进行运算
                 data = Dooperator(stack, item);
+                //运算结果入栈
                 stack.push(data);
             } else {
                 if(info.getText().toString().equals("D")){
@@ -660,12 +677,20 @@ public class MainActivity extends AppCompatActivity {
         if(Math.abs(data - Math.round(data)) < 1e-6){
             string_ans = String.valueOf((long)data);
         }
+        //小数保留三位
         else string_ans = String.format("%.3f",data);
         return string_ans;
     }
 
+    /**
+     * 从栈中读取运算数，与输入的运算符进行相应计算
+     * @param stack 存放运算数的栈
+     * @param item 运算符
+     * @return 运算结果
+     */
     private double Dooperator(Stack<Double> stack, String item) {
         double res = 0;
+        //单目与双目运算
         if(item.equals("^") || item.equals("!")){
             double oper_1;
             if(stack.size() > 0) {
@@ -682,6 +707,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }else {
             double oper_1, oper_2;
+            //取出两个操作数进行相应计算
             if(stack.size() > 1) {
                 oper_2 = stack.peek();
                 stack.pop();
@@ -711,13 +737,21 @@ public class MainActivity extends AppCompatActivity {
         return res;
     }
 
+    /**
+     *将表达式转为后缀表达式
+     * @param s_begin 带转换的表达式
+     * @return 已转换表达式
+     */
     private String To_postfix(String s_begin) {
-        String string_post = "";
-        Stack<Character> stack = new Stack<>();
-        stack.push('#');
-        String item;
+        String string_post = "";//存放转换后的后缀表达式
+        Stack<Character> stack = new Stack<>();//存放运算符
+        stack.push('#');//结束标志
+        String item;//存放运算数
+        //flag = -1 表示当前表达式错误
+        //flag = 0 表示当前是数字
+        //flag = 1 表示当前为运算符
         int flag;
-        int curPos = 0;
+        int curPos = 0;//目前遍历表达式的位置
         while(s_begin.charAt(curPos) == ' ') curPos ++;
         while (curPos < s_begin.length()) {
             int k = curPos;
@@ -739,7 +773,9 @@ public class MainActivity extends AppCompatActivity {
             if (flag == -1) {
                 Toast.makeText(getApplicationContext(), "异常，元素不合法", Toast.LENGTH_SHORT).show();
             } else if (flag == 1) {
+                //读取到运算符，进行入栈
                 Character curOP = item.charAt(0);
+                //当前字符为’）‘，出栈先行运算
                 if (curOP == ')') {
                     Character ch;
                     do {
@@ -749,10 +785,12 @@ public class MainActivity extends AppCompatActivity {
                             Toast.makeText(getApplicationContext(), "异常，表达式不合法", Toast.LENGTH_SHORT).show();
                         }
                         if (ch != '(') {
+                            //如果是其他符号，则把出栈的符号加入到post中,直至’（‘符号出现停止
                             string_post = string_post + Character.toString(ch) + " ";
                         }
                     } while (ch != '(');
                 } else {
+                    //当前字符为除了’）‘以外其他运算符符号
                     Character ch;
                     ch = stack.peek();
                     while (ICP(curOP) <= ISP(ch)) {
@@ -763,9 +801,11 @@ public class MainActivity extends AppCompatActivity {
                     stack.push(curOP);
                 }
             } else {
+                //运算数直接添加进后缀表达式
                 string_post = string_post + item + " ";
             }
         }
+        //栈内还有剩余运算符
         while (!stack.empty()) {
             Character ch;
             ch = stack.peek();
@@ -775,13 +815,20 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         if (string_post.length() > 0)
+            //删去末尾多余空格
             string_post = string_post.substring(0, string_post.length() - 1);
         return string_post;
     }
 
+    /**
+     *对于表达式中负数、开方、平方的处理
+     * @param s_dengyu 待处理的表达式
+     * @return 处理完成的表达式
+     */
     private String Pre_processing(String s_dengyu) {
         s_dengyu = s_dengyu.replace("\u202D", "");
         s_dengyu = s_dengyu.replace("\u202C", "");
+        //负数处理，若前面无数字，在前面添加‘0’便于运算
         for (int i = 0; i < s_dengyu.length(); i ++) {
             if(s_dengyu.charAt(i) == '-') {
                 if(i == 0) {
@@ -791,8 +838,10 @@ public class MainActivity extends AppCompatActivity {
                 }
             }
         }
+        //平方处理
         for(int i = 0; i < s_dengyu.length(); i ++) {
             if(s_dengyu.charAt(i) == '^') {
+                //补充省略的’×‘,小数
                 if(i + 4 < s_dengyu.length() && (Character.isDigit(s_dengyu.charAt(i + 4)) || Character.isUpperCase(s_dengyu.charAt(i + 4)) )) {
                     s_dengyu = s_dengyu.substring(0, i + 1) + "×" + s_dengyu.substring(i + 4);
                 }else if(i + 4 < s_dengyu.length() && s_dengyu.charAt(i + 4) == '.'){
@@ -801,12 +850,14 @@ public class MainActivity extends AppCompatActivity {
                 else s_dengyu = s_dengyu.substring(0, i + 1) + s_dengyu.substring(i + 4);
             }
         }
+        //开方处理，补充'√'前省略的乘号
         for (int i = 0; i < s_dengyu.length(); i ++){
             if(s_dengyu.charAt(i) == '√'){
                 if(i > 0 && Character.isDigit(s_dengyu.charAt(i - 1)))
                     s_dengyu = s_dengyu.substring(0, i) + "×" + s_dengyu.substring(i);
             }
         }
+        //对于要开方的数字进行标记
         for (int i = 0; i < s_dengyu.length(); i ++){
             if(s_dengyu.charAt(i) == '√') {
                 if (Character.isDigit(s_dengyu.charAt(i + 1))) {
@@ -823,6 +874,7 @@ public class MainActivity extends AppCompatActivity {
                     while (j + 1 < s_dengyu.length() && s_dengyu.charAt(j + 1) != ')') {
                         j++;
                     }
+                    //缺少’)‘进行补充
                     if (j == s_dengyu.length() - 1) {
                         s_dengyu = s_dengyu.substring(0, i) + s_dengyu.substring(i + 1) + ")!";
                     } else if (j == s_dengyu.length() - 2)
@@ -835,7 +887,12 @@ public class MainActivity extends AppCompatActivity {
 //        System.out.println(s_dengyu);
         return s_dengyu;
     }
-    //栈内优先级
+
+    /**
+     *求栈内优先级
+     * @param c 运算符
+     * @return 栈内优先级
+     */
     private int ISP(Character c){
       int value = -1;
       if(c.equals('#')) value = 0;
@@ -846,7 +903,12 @@ public class MainActivity extends AppCompatActivity {
       else if(c.equals(')')) value = 8;
       return value;
     }
-    //栈外优先级
+
+    /**
+     * 求栈外优先级
+      * @param c 运算符
+     * @return 栈外优先级
+     */
     private int ICP(Character c){
         int value = -1;
         if(c.equals('#')) value = 0;

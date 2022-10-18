@@ -7,6 +7,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.WindowManager;
 
+/**
+ * 程序启动界面
+ */
 public class SplashActivity extends Activity {
 
     // private final int SPLASH_DISPLAY_LENGHT = 2000; // 两秒后进入系统

@@ -20,13 +20,19 @@ import android.widget.Toast;
  */
 public class PluralityActivity extends AppCompatActivity {
 
+
     Button button_plural_jia, button_plural_jian, button_plural_chen, button_plural_chu, button_plural_dengyu;
-    TextView tip1, tip2, tip3, input1, input2, print1, ans;
+
+    TextView tip1, tip2, tip3;
+    /** input1为输入第一个复数 input2为输入第二个复数 print1为显示选择的运算符 ans为运算结果*/
+    TextView input1, input2, print1, ans;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        //设置布局文件
         setContentView(R.layout.activity_plurality);
+        //获取控件
         button_plural_jia = findViewById(R.id.plural_jia);
         button_plural_jian = findViewById(R.id.plural_jian);
         button_plural_chen = findViewById(R.id.plural_chen);
@@ -40,11 +46,13 @@ public class PluralityActivity extends AppCompatActivity {
         print1 = findViewById(R.id.plural_print_1);
         ans = findViewById(R.id.plural_ans);
 
+        //初始化
         input1.setText("");
         input2.setText("");
         print1.setText("+");
         ans.setText("");
 
+        //设置监听事件
         button_plural_jia.setOnClickListener(new ClickOnLisenter());
         button_plural_jian.setOnClickListener(new ClickOnLisenter());
         button_plural_chen.setOnClickListener(new ClickOnLisenter());
@@ -98,6 +106,9 @@ public class PluralityActivity extends AppCompatActivity {
         return true;
     }
 
+    /**
+     * + - × ÷ 与 = 按键的事件监听
+     */
     class ClickOnLisenter implements View.OnClickListener {
         @SuppressLint("NonConstantResourceId")
         @Override
@@ -127,11 +138,18 @@ public class PluralityActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 两个复数进行相应计算
+     * @param input_1
+     * @param input_2
+     * @return 结果
+     */
     @SuppressLint("DefaultLocale")
     private String compute_plural(String input_1, String input_2) {
         double a1, b1, a2, b2;
         double a_ans = 0, b_ans = 0;
         if(input_1.indexOf('i') != -1){
+            //a+bi
             if(input_1.indexOf('+') != -1){
                 a1 = Double.parseDouble(input_1.substring(0, input_1.indexOf('+')));
                 String i = input_1.substring(input_1.indexOf('+') + 1, input_1.indexOf('i'));
@@ -140,6 +158,7 @@ public class PluralityActivity extends AppCompatActivity {
                 }
                 else b1 = Double.parseDouble(i);
             }else if(input_1.indexOf('-') != -1){
+                //bi,b为负
                 if(input_1.substring(0, input_1.indexOf('-')).equals("")) a1 = 0;
                 else a1 = Double.parseDouble(input_1.substring(0, input_1.indexOf('-')));
                 String i = input_1.substring(input_1.indexOf('-'), input_1.indexOf('i'));
@@ -228,6 +247,11 @@ public class PluralityActivity extends AppCompatActivity {
         return ANS;
     }
 
+    /**
+     * 判断输入的复数是否合法
+     * @param input 输入字符串
+     * @return true-合法 false-非法
+     */
     private boolean is_plural_legal(String input) {
 //        当前可能是 a+bi 或 a-bi 或 bi 或 -bi
         if(input.indexOf('i') != -1){
@@ -259,6 +283,11 @@ public class PluralityActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * 判断数字是否合法
+     * @param input 输入字符串
+     * @return true-合法 false-非法
+     */
     private boolean is_double(String input) {
         try{
             Double.parseDouble(input);
