@@ -393,7 +393,7 @@ public class MainActivity extends AppCompatActivity {
                     break;
                     //+ - × ÷ 如果最后一个字符为四个运算符中一个则替换，为数字则在后添加
                 case R.id.button_jia:
-                    String s_jia = last_out.getText().toString();
+                     String s_jia = last_out.getText().toString();
                     s_jia = clearstr(s_jia);
                     if (!s_jia.equals("0")) {
                         String t_jia = s_jia.substring(s_jia.length() - 1);
@@ -860,7 +860,7 @@ public class MainActivity extends AppCompatActivity {
         //对于要开方的数字进行标记
         for (int i = 0; i < s_dengyu.length(); i ++){
             if(s_dengyu.charAt(i) == '√') {
-                if (Character.isDigit(s_dengyu.charAt(i + 1))) {
+                if (Character.isDigit(s_dengyu.charAt(i + 1))||s_dengyu.charAt(i+1)=='√') {
                     int j = i + 1;
                     while (j + 1 < s_dengyu.length() && !s_yunsuanfu.contains(Character.toString(s_dengyu.charAt(j + 1)))) {
                         j++;
@@ -869,6 +869,8 @@ public class MainActivity extends AppCompatActivity {
                         s_dengyu = s_dengyu.substring(0, i) + s_dengyu.substring(i + 1) + "!";
                     else
                         s_dengyu = s_dengyu.substring(0, i) + s_dengyu.substring(i + 1, j + 1) + "!" + s_dengyu.substring(j + 1);
+                    if(s_dengyu.charAt(i)=='√')
+                        i--;
                 } else if (s_dengyu.charAt(i + 1) == '(') {
                     int j = i + 1;
                     while (j + 1 < s_dengyu.length() && s_dengyu.charAt(j + 1) != ')') {
