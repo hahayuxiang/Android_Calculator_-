@@ -469,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
                     if(s_leftkuohao.equals("0")) s_leftkuohao = "(";
                     else {
                         //√ （ ） 与+ - × ÷运算符后面可以直接添加（
-                        if(t_leftkuohao.equals("√") || t_leftkuohao.equals(")") || t_leftkuohao.equals("(")){
+                        if(t_leftkuohao.equals("√") || t_leftkuohao.equals("(")){
                             s_leftkuohao += "(";
                         }else if(s_yunsuanfu.contains(t_leftkuohao)){
                             s_leftkuohao += "(";
