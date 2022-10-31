@@ -743,74 +743,97 @@ public class MainActivity extends AppCompatActivity {
      * @return 已转换表达式
      */
     private String To_postfix(String s_begin) {
-        String string_post = "";//存放转换后的后缀表达式
-        Stack<Character> stack = new Stack<>();//存放运算符
-        stack.push('#');//结束标志
-        String item;//存放运算数
+        String string_post = "";
+        //存放转换后的后缀表达式
+        Stack<Character> stack = new Stack<>();
+        //存放运算符
+        stack.push('#');
+        //结束标志
+        String item;
+        //item用来保存每次从表达式中取出的操作数或操作符
+        int flag;
         //flag = -1 表示当前表达式错误
         //flag = 0 表示当前是数字
         //flag = 1 表示当前为运算符
-        int flag;
-        int curPos = 0;//目前遍历表达式的位置
+        int curPos = 0;
+        //目前遍历表达式的位置
         while(s_begin.charAt(curPos) == ' ') curPos ++;
-        while (curPos < s_begin.length()) {
+        //取出连续且无效的空格
+        while (curPos < s_begin.length())
+        {
+            //只要表达式没结束，就一直执行
             int k = curPos;
             item = "";
             if (s_begin.charAt(k) == '.') flag = -1;
-            else if (Character.isDigit(s_begin.charAt(k)) || Character.isUpperCase(s_begin.charAt(k))) {
-                while (k < s_begin.length() && (Character.isDigit(s_begin.charAt(k)) || s_begin.charAt(k) == '.' || Character.isUpperCase(s_begin.charAt(k)))) {
+            else if (Character.isDigit(s_begin.charAt(k)) || Character.isUpperCase(s_begin.charAt(k)))
+            {
+                while (k < s_begin.length() && (Character.isDigit(s_begin.charAt(k)) || s_begin.charAt(k) == '.' || Character.isUpperCase(s_begin.charAt(k))))
+                {
+                    //取出连续的操作数
                     item += s_begin.substring(k, k + 1);
                     k++;
                 }
                 flag = 0;
-            } else {
+            } else
+            {
+                //取出操作符
                 item = s_begin.substring(k, k + 1);
                 k ++;
                 flag = 1;
             }
             while (k < s_begin.length() && s_begin.charAt(k) == ' ') k++;
             curPos = k;
-            if (flag == -1) {
+            if (flag == -1)
+            {
                 Toast.makeText(getApplicationContext(), "异常，元素不合法", Toast.LENGTH_SHORT).show();
-            } else if (flag == 1) {
+            } else if (flag == 1)
+            {
                 //读取到运算符，进行入栈
                 Character curOP = item.charAt(0);
                 //当前字符为’）‘，出栈先行运算
-                if (curOP == ')') {
+                if (curOP == ')')
+                {
                     Character ch;
                     do {
                         ch = stack.peek();
                         stack.pop();
-                        if (ch == '#') {
+                        if (ch == '#')
+                        {
                             Toast.makeText(getApplicationContext(), "异常，表达式不合法", Toast.LENGTH_SHORT).show();
                         }
-                        if (ch != '(') {
+                        if (ch != '(')
+                        {
                             //如果是其他符号，则把出栈的符号加入到post中,直至’（‘符号出现停止
                             string_post = string_post + Character.toString(ch) + " ";
                         }
                     } while (ch != '(');
-                } else {
+                } else
+                {
                     //当前字符为除了’）‘以外其他运算符符号
                     Character ch;
                     ch = stack.peek();
-                    while (ICP(curOP) <= ISP(ch)) {
+                    while (ICP(curOP) <= ISP(ch))
+                    {
                         stack.pop();
                         string_post = string_post + Character.toString(ch) + " ";
                         ch = stack.peek();
                     }
                     stack.push(curOP);
                 }
-            } else {
+            } else
+            {
                 //运算数直接添加进后缀表达式
                 string_post = string_post + item + " ";
             }
         }
         //栈内还有剩余运算符
-        while (!stack.empty()) {
+        while (!stack.empty())
+        {
             Character ch;
             ch = stack.peek();
             stack.pop();
-            if (ch != '#') {
+            if (ch != '#')
+            {
                 string_post = string_post + Character.toString(ch) + " ";
             }
         }
@@ -862,7 +885,8 @@ public class MainActivity extends AppCompatActivity {
             if(s_dengyu.charAt(i) == '√') {
                 if (Character.isDigit(s_dengyu.charAt(i + 1))||s_dengyu.charAt(i+1)=='√') {
                     int j = i + 1;
-                    while (j + 1 < s_dengyu.length() && !s_yunsuanfu.contains(Character.toString(s_dengyu.charAt(j + 1)))) {
+                    while (j + 1 < s_dengyu.length() && !s_yunsuanfu.contains(Character.toString(s_dengyu.charAt(j + 1)))
+                        && s_dengyu.charAt(j + 1) != ')'){
                         j++;
                     } //最后一个或者下一个是双目运算符
                     if (j == s_dengyu.length() - 1)

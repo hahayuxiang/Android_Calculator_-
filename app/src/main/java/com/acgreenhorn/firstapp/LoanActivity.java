@@ -167,7 +167,7 @@ public class LoanActivity extends AppCompatActivity {
      * 计算车房贷结果，并且显示
      * @param loan_all 贷款总额
      * @param loan_term 贷款年限
-     * @param loan_rate 贷款利率
+     * @param loan_rate 贷款年利率
      * @param loan_current_option 利息计算方式
      */
     @SuppressLint("DefaultLocale")

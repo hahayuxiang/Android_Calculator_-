@@ -59,7 +59,7 @@
     <string name="loan_tip_1">还款方式:</string>
     <string name="loan_tip_2">贷款总额:</string>
     <string name="loan_tip_3">贷款年限:</string>
-    <string name="loan_tip_4">贷款利率:</string>
+    <string name="loan_tip_4">贷款年利率:</string>
     <string name="loan_tip_5">还款月数:</string>
     <string name="loan_tip_6">月均还款:</string>
     <string name="loan_tip_7">利息总额:</string>
