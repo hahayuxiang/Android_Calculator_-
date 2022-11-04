@@ -132,6 +132,8 @@ public class PluralityActivity extends AppCompatActivity {
                     if(is_plural_legal(input_1) && is_plural_legal(input_2)){
                         String ans_temp = compute_plural(input_1, input_2);
                         ans.setText(ans_temp);
+                    }else {
+                        Toast.makeText(getApplicationContext(), "请按正确格式输入！", Toast.LENGTH_SHORT).show();
                     }
                     break;
             }
@@ -255,27 +257,31 @@ public class PluralityActivity extends AppCompatActivity {
     private boolean is_plural_legal(String input) {
 //        当前可能是 a+bi 或 a-bi 或 bi 或 -bi
         if(input.indexOf('i') != -1){
+            if (input.endsWith("i"))
 //            当前可能是 a+bi
-            if(input.indexOf('+') != -1){
-                String plural_a = input.substring(0, input.indexOf('+'));
-                String plural_b = input.substring(input.indexOf('+') + 1, input.indexOf('i'));
-                if(plural_b.equals("")) plural_b = "1";
-                return is_double(plural_a) && is_double(plural_b);
-            }
+            {
+                if (input.indexOf('+') != -1) {
+                    String plural_a = input.substring(0, input.indexOf('+'));
+                    String plural_b = input.substring(input.indexOf('+') + 1, input.indexOf('i'));
+                    if (plural_b.equals("")) plural_b = "1";
+                    return is_double(plural_a) && is_double(plural_b);
+                }
 //            当前可能是 a-bi
-            else if(input.indexOf('-') !=-1){
-                String plural_a = input.substring(0, input.indexOf('-'));
-                if(plural_a.equals("")) plural_a = "0";
-                String plural_b = input.substring(input.indexOf('-'), input.indexOf('i'));
-                if(plural_b.equals("-")) plural_b = "-1";
-                return is_double(plural_a) && is_double(plural_b);
-            }
+                else if (input.indexOf('-') != -1) {
+                    String plural_a = input.substring(0, input.indexOf('-'));
+                    if (plural_a.equals("")) plural_a = "0";
+                    String plural_b = input.substring(input.indexOf('-'), input.indexOf('i'));
+                    if (plural_b.equals("-")) plural_b = "-1";
+                    return is_double(plural_a) && is_double(plural_b);
+                }
 //            当前可能是bi
-            else{
-                String plural_b = input.substring(0, input.indexOf('i'));
-                if(plural_b.equals("")) plural_b = "1";
-                return is_double(plural_b);
+                else {
+                    String plural_b = input.substring(0, input.indexOf('i'));
+                    if (plural_b.equals("")) plural_b = "1";
+                    return is_double(plural_b);
+                }
             }
+           else return false;
         }
 //        当前可能是a
         else{
