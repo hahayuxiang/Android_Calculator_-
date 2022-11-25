@@ -538,7 +538,7 @@ public class MainActivity extends AppCompatActivity {
                 case R.id.button_dengyu:
                     String s_dengyu = last_out.getText().toString();
                     s_dengyu = clearstr(s_dengyu);
-                    if (s_dengyu.endsWith("√")) {
+                    if (s_dengyu.endsWith("√") || s_dengyu.equals("Infinity")) {
                         Toast.makeText(getApplicationContext(), "异常，表达式不合法", Toast.LENGTH_SHORT).show();
                     }
                     else if (info.getText().toString().equals("H") && s_dengyu.indexOf('.') != -1) {
@@ -547,6 +547,7 @@ public class MainActivity extends AppCompatActivity {
                     else {
                         String result_dec = compute(s_dengyu);
                         //结果长度过长，字体减小显示
+
                         if (result_dec.length() > 11) {
                             last_out.setTextSize(1,45);
                         }else last_out.setTextSize(1,60);
@@ -876,7 +877,7 @@ public class MainActivity extends AppCompatActivity {
         //开方处理，补充'√'前省略的乘号
         for (int i = 0; i < s_dengyu.length(); i ++){
             if(s_dengyu.charAt(i) == '√'){
-                if(i > 0 && Character.isDigit(s_dengyu.charAt(i - 1)))
+                if(i > 0 && (Character.isDigit(s_dengyu.charAt(i - 1)) || s_dengyu.charAt(i - 1) == '^'))
                     s_dengyu = s_dengyu.substring(0, i) + "×" + s_dengyu.substring(i);
             }
         }
